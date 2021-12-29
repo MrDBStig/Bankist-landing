@@ -12,6 +12,7 @@ const nav = document.querySelector('.nav');
 const tabs = document.querySelectorAll('.operations__tab'),
   tabsContainer = document.querySelector('.operations__tab-container'),
   tabsContent = document.querySelectorAll('.operations__content');
+const header = document.querySelector('.header');
 
 ///////////////////////////////////////
 // Modal window
@@ -94,3 +95,26 @@ tabsContainer.addEventListener('click', e => {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+///////////////////////////////////////
+// Sticky navigation
+// Old way (bad performance)
+// const initialCoords = section1.getBoundingClientRect();
+// window.addEventListener('scroll', () => {
+//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+// Modern way (Intersection observer API)
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
