@@ -1,12 +1,16 @@
 'use strict';
 
 ///////////////////////////////////////
-// Modal window
-
+// Selectors
+const btnScrollTo = document.querySelector('.btn--scroll-to'),
+  section1 = document.querySelector('#section--1');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+
+///////////////////////////////////////
+// Modal window
 
 const openModal = function (event) {
   event.preventDefault();
@@ -30,11 +34,11 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+///////////////////////////////////////
 // Smooth scrolling
-const btnScrollTo = document.querySelector('.btn--scroll-to'),
-  section1 = document.querySelector('#section--1');
+
 btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
+  // const s1coords = section1.getBoundingClientRect();
   // Scrolling
   // window.scrollTo({
   //   left: s1coords.left + window.pageXOffset,
@@ -42,4 +46,15 @@ btnScrollTo.addEventListener('click', function (e) {
   //   behavior: 'smooth',
   // });
   section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+///////////////////////////////////////
+// Smooth navigation with event delegation
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+  // Matching the target link
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
 });
